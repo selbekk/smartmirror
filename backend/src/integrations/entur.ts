@@ -1,4 +1,4 @@
-import createEnturService from '@entur/sdk';
+import createEnturService, { EstimatedCall } from '@entur/sdk';
 
 const service = createEnturService({
   clientName: 'giltvedt-selbekk - smart-mirror',
@@ -17,6 +17,14 @@ const params = {
   timeRange: 60 * 60 * 2, // 2 hours
 };
 
+const mapDeparture = (departure: EstimatedCall) => ({
+  transportationType:
+    departure.serviceJourney.journeyPattern?.line.transportMode === 'tram',
+  lineNumber: departure.serviceJourney.journeyPattern?.line.publicCode,
+  lineDescription: departure.serviceJourney.journeyPattern?.line.name,
+  departureTime: departure.expectedDepartureTime,
+});
+
 export const getAllDepartures = async () => {
   const bislettDepartures = await service.getDeparturesFromStopPlace(
     bislettStopId,
@@ -26,11 +34,11 @@ export const getAllDepartures = async () => {
     bogstadveienStopId,
     params,
   );
-  return [...bislettDepartures, ...bogstadveienDepartures].map((entry) => ({
-    transportationType:
-      entry.serviceJourney.journeyPattern?.line.transportMode === 'tram',
-    lineNumber: entry.serviceJourney.journeyPattern?.line.publicCode,
-    lineDescription: entry.serviceJourney.journeyPattern?.line.name,
-    departureTime: entry.expectedDepartureTime,
-  }));
+  return [
+    { name: 'Bislett', departures: bislettDepartures.map(mapDeparture) },
+    {
+      name: 'Bogstadveien',
+      departures: bogstadveienDepartures.map(mapDeparture),
+    },
+  ];
 };

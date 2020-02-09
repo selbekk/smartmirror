@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
-import { getDepartures } from './controllers/departures';
+import { getDepartures } from './controllers/transports';
 
 const app = express();
 

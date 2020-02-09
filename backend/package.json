@@ -4,7 +4,13 @@
   "description": "The backend for a smart mirror application",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "start": "npm run serve",
+    "test": "jest",
+    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
+    "serve": "node dist/server.js",
+    "build": "tsc",
+    "verify": "npm run lint && npm run build && npm run test",
+    "watch": "tsc -w"
   },
   "repository": {
     "type": "git",
@@ -15,5 +21,18 @@
   "bugs": {
     "url": "https://github.com/selbekk/smartmirror/issues"
   },
-  "homepage": "https://github.com/selbekk/smartmirror#readme"
+  "homepage": "https://github.com/selbekk/smartmirror#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "isomorphic-fetch": "^2.2.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@typescript-eslint/parser": "^2.19.0",
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.0",
+    "typescript": "^3.7.5"
+  }
 }

@@ -1,4 +1,4 @@
-import createEnturService, { EstimatedCall } from '@entur/sdk';
+import createEnturService, { EstimatedCall, DeparturesById } from '@entur/sdk';
 
 const service = createEnturService({
   clientName: 'giltvedt-selbekk - smart-mirror',
@@ -26,19 +26,13 @@ const mapDeparture = (departure: EstimatedCall) => ({
 });
 
 export const getAllDepartures = async () => {
-  const bislettDepartures = await service.getDeparturesFromStopPlace(
-    bislettStopId,
+  const allDepartures = (await service.getDeparturesFromStopPlaces(
+    [bislettStopId, bogstadveienStopId],
     params,
-  );
-  const bogstadveienDepartures = await service.getDeparturesFromStopPlace(
-    bogstadveienStopId,
-    params,
-  );
-  return [
-    { name: 'Bislett', departures: bislettDepartures.map(mapDeparture) },
-    {
-      name: 'Bogstadveien',
-      departures: bogstadveienDepartures.map(mapDeparture),
-    },
-  ];
+  )) as DeparturesById[];
+
+  return allDepartures.map(({ departures, id }) => ({
+    stopId: id,
+    departures: departures.map(mapDeparture),
+  }));
 };

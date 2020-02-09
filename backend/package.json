@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "The backend for a smart mirror application",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/selbekk/smartmirror.git"
+  },
+  "author": "Kristofer Giltvedt Selbekk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/selbekk/smartmirror/issues"
+  },
+  "homepage": "https://github.com/selbekk/smartmirror#readme"
+}

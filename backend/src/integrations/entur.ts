@@ -20,10 +20,10 @@ const params = {
 
 const mapDeparture = (departure: EstimatedCall) => ({
   transportationType:
-    departure.serviceJourney.journeyPattern?.line.transportMode === 'tram',
-  lineNumber: departure.serviceJourney.journeyPattern?.line.publicCode,
+    departure.serviceJourney.journeyPattern?.line.transportMode,
+  lineNumber: Number(departure.serviceJourney.journeyPattern?.line.publicCode),
   lineDescription: departure.serviceJourney.journeyPattern?.line.name,
-  departureTime: departure.expectedDepartureTime,
+  departureTime: new Date(departure.expectedDepartureTime).getTime(),
 });
 
 export const getAllDepartures = async () => {

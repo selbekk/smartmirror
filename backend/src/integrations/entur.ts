@@ -1,4 +1,5 @@
 import createEnturService, { EstimatedCall, DeparturesById } from '@entur/sdk';
+import app from 'src/app';
 
 const service = createEnturService({
   clientName: 'giltvedt-selbekk - smart-mirror',
@@ -31,8 +32,16 @@ export const getAllDepartures = async () => {
     params,
   )) as DeparturesById[];
 
-  return allDepartures.map(({ departures, id }) => ({
-    stopId: id,
-    departures: departures.map(mapDeparture),
-  }));
+  return allDepartures
+    .map(({ departures }) => departures.map(mapDeparture))
+    .reduce((acc, departures) => acc.concat(departures))
+    .sort((a, b) => {
+      if (a.departureTime < b.departureTime) {
+        return -1;
+      }
+      if (b.departureTime > b.departureTime) {
+        return 1;
+      }
+      return 0;
+    });
 };

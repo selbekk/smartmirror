@@ -129,7 +129,7 @@ getTimeUntilNow currentTime departureTime =
 
 viewDeparture : TimeData -> Departure -> Html Msg
 viewDeparture timeData departure =
-    li [ class "departure" ] [ text departure.lineDescription, br [] [], text (getTimeUntilNow timeData departure.departureTime) ]
+    li [ class "departure" ] [ strong [] [ text (String.fromInt departure.lineNumber ++ " ") ], text departure.lineDescription, br [] [], text (getTimeUntilNow timeData departure.departureTime) ]
 
 
 viewDepartures : Model -> Html Msg
